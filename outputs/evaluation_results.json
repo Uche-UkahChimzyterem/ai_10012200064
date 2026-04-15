@@ -1,0 +1,71 @@
+{
+  "benchmark": [
+    {
+      "query": "Who won more votes in Ahafo Region in 2020?",
+      "rag_accuracy_proxy": 1.0,
+      "no_fix_accuracy_proxy": 1.0,
+      "rag_hallucination_flag": 0,
+      "no_fix_hallucination_flag": 0,
+      "rag_response": "Nana Akufo Addo (NPP) recorded the highest votes (145,584), ahead of John Dramani Mahama (NDC) with 116,485. Sources: [csv:Ahafo Region/2020]",
+      "no_fix_response": "Nana Akufo Addo (NPP) recorded the highest votes (145,584), ahead of John Dramani Mahama (NDC) with 116,485. Sources: [csv:Ahafo Region/2020]"
+    },
+    {
+      "query": "What does the 2025 budget say about revenue mobilization?",
+      "rag_accuracy_proxy": 0.6666666666666666,
+      "no_fix_accuracy_proxy": 0.6666666666666666,
+      "rag_hallucination_flag": 0,
+      "no_fix_hallucination_flag": 0,
+      "rag_response": "Government is proposing some revenue measures to support the achievement of the fiscal target for 2025 and the medium -term for the consideration and approval of Parliament. Sources: [pdf:page-65]",
+      "no_fix_response": "Government is proposing some revenue measures to support the achievement of the fiscal target for 2025 and the medium -term for the consideration and approval of Parliament. Sources: [pdf:page-65]"
+    }
+  ],
+  "adversarial": [
+    {
+      "query": "In 2030, which candidate won in all regions in the dataset?",
+      "response_1": "Extend passport application services to the six new regions, namely: Ahafo, Bono East, North-East, Oti, Savannah, and Western North Regions. Sources: [pdf:page-92]",
+      "response_2": "Extend passport application services to the six new regions, namely: Ahafo, Bono East, North-East, Oti, Savannah, and Western North Regions. Sources: [pdf:page-92]",
+      "consistency": 1,
+      "hallucination_rate_proxy": 0.0
+    },
+    {
+      "query": "The budget claims cocoa exports dropped by 80% in 2025. Confirm exact figure and policy response.",
+      "response_1": "Resetting the Economy for the Ghana We Want 2025 Budget v List of Figures Figure 1: Stalled Projects under Bilateral Loans ......................................................... Resetting the Economy for the Ghana We Want 2025 Budget 74 SECTION 6: SECTORAL PERFORMANCE AND OUTLOOK Introduction 396. Sources: [pdf:page-9], [pdf:page-86]",
+      "response_2": "Resetting the Economy for the Ghana We Want 2025 Budget v List of Figures Figure 1: Stalled Projects under Bilateral Loans ......................................................... Resetting the Economy for the Ghana We Want 2025 Budget 74 SECTION 6: SECTORAL PERFORMANCE AND OUTLOOK Introduction 396. Sources: [pdf:page-9], [pdf:page-86]",
+      "consistency": 1,
+      "hallucination_rate_proxy": 0.0
+    }
+  ],
+  "prompt_comparison": [
+    {
+      "query": "Summarize key election insight for Ahafo 2020 with source evidence.",
+      "base_prompt_response": "Election results for Brong Ahafo Region in 1992:. Election results for Ashanti Region in 2008:. Sources: [csv:Brong Ahafo Region/1992], [csv:Ashanti Region/2008]",
+      "strict_prompt_response": "Election results for Brong Ahafo Region in 1992:. Election results for Ashanti Region in 2008:. Sources: [csv:Brong Ahafo Region/1992], [csv:Ashanti Region/2008]"
+    }
+  ],
+  "failure_case_and_fix": {
+    "query": "What is the fiscal deficit target and how does NDC perform in Ahafo?",
+    "before_fix_vector_only": "Speaker, Ghanaians, through the recent National Economic Dialogue, have expressed a clear desire for the fiscal deficit and public debt to be reduced through cuts in government spe. Speaker, I will now update the House on fiscal performance for the 2024 financial year. Sources: [pdf:page-62], [pdf:page-35]",
+    "after_fix_hybrid": "Speaker, the fiscal performance for 2024 shows a reversal of the effort made in 2023 as primary balance on commitment basis worsened from a deficit of 0. Overall Fiscal Balance (Commitment) was a deficit of GH¢92,647 million (7.9% of GDP) against the target of GH¢42,529 million (4.2% of GDP). Sources: [pdf:page-36]",
+    "fix_summary": "Hybrid re-ranking blends vector and keyword relevance to reduce topic drift for mixed queries."
+  },
+  "rag_vs_pure_llm": [
+    {
+      "query": "Who won more votes in Ahafo Region in 2020?",
+      "rag_response": "Nana Akufo Addo (NPP) recorded the highest votes (145,584), ahead of John Dramani Mahama (NDC) with 116,485. Sources: [csv:Ahafo Region/2020]",
+      "pure_llm_response": "I do not have enough evidence in the retrieved sources.",
+      "rag_accuracy_proxy": 1.0,
+      "pure_llm_accuracy_proxy": 0.0,
+      "rag_hallucination_flag": 0,
+      "pure_llm_hallucination_flag": 0
+    },
+    {
+      "query": "What does the 2025 budget say about revenue mobilization?",
+      "rag_response": "Government is proposing some revenue measures to support the achievement of the fiscal target for 2025 and the medium -term for the consideration and approval of Parliament. Sources: [pdf:page-65]",
+      "pure_llm_response": "I do not have enough evidence in the retrieved sources.",
+      "rag_accuracy_proxy": 0.6666666666666666,
+      "pure_llm_accuracy_proxy": 0.0,
+      "rag_hallucination_flag": 0,
+      "pure_llm_hallucination_flag": 0
+    }
+  ]
+}
