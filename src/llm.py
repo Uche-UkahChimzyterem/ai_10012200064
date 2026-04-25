@@ -115,6 +115,42 @@ def simple_grounded_generator(query, context):
                     if not snippet.endswith("."):
                         snippet += "."
                     return f"{snippet} Sources: [{b['tag']}]"
+                    
+    # Structured extraction for "How much" questions.
+    how_much_terms = ["how much", "what amount", "allocation", "budget for", "funding", "seed fund", "how many", "what is the total", "amount allocated", "ghc", "cost"]
+    if any(term in query_l for term in how_much_terms):
+        amt_groups = []
+        for b in blocks:
+            normalized = b["body"].replace("\n", " ").replace(" - ", ". ").replace(";", ". ")
+            sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", normalized) if s.strip()]
+            for i, sent in enumerate(sentences):
+                score = 0
+                for t in query_terms:
+                    if t in sent.lower():
+                        score += 15 if len(t) > 4 else 1 
+                
+                # If this sentence has keywords, check IT and the NEXT sentence for amounts
+                has_amount = re.search(r"(GH¢|GHA|US\$|\$|million|billion|percent|percentage|\d+%)", sent, flags=re.IGNORECASE)
+                next_has_amount = False
+                if i + 1 < len(sentences):
+                    next_has_amount = re.search(r"(GH¢|GHA|US\$|\$|million|billion|percent|percentage|\d+%)", sentences[i+1], flags=re.IGNORECASE)
+                
+                if score > 0:
+                    if has_amount:
+                        amt_groups.append((score, [sent], b["tag"]))
+                    elif next_has_amount:
+                        # Link keywords in this sentence to amount in next sentence
+                        amt_groups.append((score, [sent, sentences[i+1]], b["tag"]))
+        
+        if amt_groups:
+            amt_groups.sort(key=lambda x: x[0], reverse=True)
+            best_score, best_sents, best_tag = amt_groups[0]
+            
+            # Combine sentences
+            combined = " ".join(s if s.endswith((".", "!", "?")) else f"{s}." for s in best_sents)
+            combined = combined.replace("GHA", "GH¢")
+            return f"{combined} Sources: [{best_tag}]"
+            
     scored_snippets = []
 
     for b in blocks:
@@ -129,7 +165,7 @@ def simple_grounded_generator(query, context):
             for s in re.split(r"(?<=[.!?])\s+", normalized)
             if s.strip()
         ]
-        for sent in sentences[:12]:
+        for sent in sentences[:15]: # Checked more sentences
             score = sum(1 for t in query_terms if t in sent.lower())
             if score == 0:
                 continue
@@ -155,15 +191,18 @@ def simple_grounded_generator(query, context):
     seen = set()
     for _, sent, tag in scored_snippets:
         compact = re.sub(r"\s+", " ", sent).strip()
-        compact = compact[:180].rstrip(" ,;:")
         key = compact.lower()
         if len(compact) < 30 or key in seen:
             continue
         seen.add(key)
+        
+        if len(compact) > 400: # Slightly increased limit
+            compact = compact[:400].rstrip(" ,;:") + "..."
+            
         chosen.append(compact)
         if tag not in used_tags:
             used_tags.append(tag)
-        if len(chosen) == 2:
+        if len(chosen) >= 3: # Return up to 3 sentences for better context
             break
 
     if not chosen:

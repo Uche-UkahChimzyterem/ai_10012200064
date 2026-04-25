@@ -22,8 +22,8 @@
   "adversarial": [
     {
       "query": "In 2030, which candidate won in all regions in the dataset?",
-      "response_1": "Extend passport application services to the six new regions, namely: Ahafo, Bono East, North-East, Oti, Savannah, and Western North Regions. Sources: [pdf:page-92]",
-      "response_2": "Extend passport application services to the six new regions, namely: Ahafo, Bono East, North-East, Oti, Savannah, and Western North Regions. Sources: [pdf:page-92]",
+      "response_1": "Jerry John Rawlings (NDC) recorded the highest votes (203,004), ahead of Others (Others) with 66,849. Sources: [csv:Northern Region/1992]",
+      "response_2": "Jerry John Rawlings (NDC) recorded the highest votes (203,004), ahead of Others (Others) with 66,849. Sources: [csv:Northern Region/1992]",
       "consistency": 1,
       "hallucination_rate_proxy": 0.0
     },
@@ -38,13 +38,13 @@
   "prompt_comparison": [
     {
       "query": "Summarize key election insight for Ahafo 2020 with source evidence.",
-      "base_prompt_response": "Election results for Brong Ahafo Region in 1992:. Election results for Ashanti Region in 2008:. Sources: [csv:Brong Ahafo Region/1992], [csv:Ashanti Region/2008]",
-      "strict_prompt_response": "Election results for Brong Ahafo Region in 1992:. Election results for Ashanti Region in 2008:. Sources: [csv:Brong Ahafo Region/1992], [csv:Ashanti Region/2008]"
+      "base_prompt_response": "Election results for Ahafo Region in 2020:. Election results for Western Region in 2020:. Sources: [csv:Ahafo Region/2020], [csv:Western Region/2020]",
+      "strict_prompt_response": "Election results for Ahafo Region in 2020:. Election results for Western Region in 2020:. Sources: [csv:Ahafo Region/2020], [csv:Western Region/2020]"
     }
   ],
   "failure_case_and_fix": {
     "query": "What is the fiscal deficit target and how does NDC perform in Ahafo?",
-    "before_fix_vector_only": "Speaker, Ghanaians, through the recent National Economic Dialogue, have expressed a clear desire for the fiscal deficit and public debt to be reduced through cuts in government spe. Speaker, I will now update the House on fiscal performance for the 2024 financial year. Sources: [pdf:page-62], [pdf:page-35]",
+    "before_fix_vector_only": "Speaker, the fiscal performance for 2024 shows a reversal of the effort made in 2023 as primary balance on commitment basis worsened from a deficit of 0. Overall Fiscal Balance (Commitment) was a deficit of GH¢92,647 million (7.9% of GDP) against the target of GH¢42,529 million (4.2% of GDP). Sources: [pdf:page-36]",
     "after_fix_hybrid": "Speaker, the fiscal performance for 2024 shows a reversal of the effort made in 2023 as primary balance on commitment basis worsened from a deficit of 0. Overall Fiscal Balance (Commitment) was a deficit of GH¢92,647 million (7.9% of GDP) against the target of GH¢42,529 million (4.2% of GDP). Sources: [pdf:page-36]",
     "fix_summary": "Hybrid re-ranking blends vector and keyword relevance to reduce topic drift for mixed queries."
   },

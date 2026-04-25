@@ -1,12 +1,31 @@
 {
   "strategy_a": {
     "num_chunks": 435,
-    "avg_chunk_words": 253.53103448275863,
-    "keyword_coverage": 1.0
+    "avg_chunk_words": 253.5,
+    "keyword_coverage": 1.0,
+    "precision_proxy": 0.2237,
+    "density_score": 0.2092
   },
   "strategy_b": {
     "num_chunks": 353,
-    "avg_chunk_words": 294.63456090651556,
-    "keyword_coverage": 1.0
-  }
+    "avg_chunk_words": 294.6,
+    "keyword_coverage": 1.0,
+    "precision_proxy": 0.266,
+    "density_score": 0.2219
+  },
+  "justification": {
+    "strategy_A": {
+      "chunk_size_words": 450,
+      "overlap_words": 80,
+      "rationale": "Small chunks keep election region/year facts tightly grouped. Improves precision for narrow fact-retrieval queries. Overlap prevents boundary-straddle loss.",
+      "best_for": "Narrow election fact queries (who won, vote count)"
+    },
+    "strategy_B": {
+      "chunk_size_words": 850,
+      "overlap_words": 150,
+      "rationale": "Large chunks preserve cross-referential budget policy context. Reduces need for multi-hop retrieval on broad questions. Overlap maintains sentence-boundary coherence.",
+      "best_for": "Broad policy/budget summarisation queries"
+    }
+  },
+  "recommendation": "Use Strategy A (small/precise) for fact-lookup queries. Use Strategy B (large/contextual) for broad policy summaries. This pipeline uses Strategy A by default."
 }
