@@ -1,6 +1,7 @@
 import os
 import re
 from dotenv import load_dotenv
+from src.config import LOCAL_MODE
 
 load_dotenv()
 
@@ -239,6 +240,10 @@ def generate_without_retrieval(query):
 
 
 def generate_answer(prompt, query, context):
+    # Use local mode if configured or if no API key is available
+    if LOCAL_MODE:
+        return simple_grounded_generator(query, context)
+
     api_key = os.getenv("OPENAI_API_KEY", "").strip()
     if not api_key:
         return simple_grounded_generator(query, context)

@@ -2,11 +2,13 @@
 
 GitHub Repository | Python | Streamlit | OpenAI
 
+## 🚀 Deployed Application
+**Live Demo:** https://ai10012200064-li28tsetm7ddi98w8dhlew.streamlit.app/
+
 ## 👤 Developer Details
-**Developer:** Uche-Ukah Chimzyterem Janet  
-**Roll Number:** 10012200064  
-**GitHub Repository:** https://github.com/Uche-UkahChimzyterem/ai_10012200064.git  
-**Institution:** Academic City University College
+**Developer:** Uche-Ukah Chimzyterem Janet
+**Roll Number:** 10012200064
+**GitHub Repository:** https://github.com/Uche-UkahChimzyterem/ai_10012200064.git
 
 ## ✨ Overview
 AcityPal is a sophisticated Retrieval-Augmented Generation (RAG) chatbot system designed to answer questions about Ghana's election results and the 2025 Budget Statement & Economic Policy. The system combines custom embedding pipelines, hybrid retrieval strategies, and advanced prompt engineering to deliver accurate, context-aware responses while minimizing hallucination risks.
@@ -14,10 +16,10 @@ AcityPal is a sophisticated Retrieval-Augmented Generation (RAG) chatbot system 
 The platform features a modern Ghana-themed Streamlit interface with real-time query processing, similarity scoring, and comprehensive evaluation metrics.
 
 ## 📦 Repository Details
-**Project Name:** AcityPal AI Chatbot  
-**Stack:** Full-stack Python (Streamlit + Custom RAG Pipeline)  
-**Data Sources:** Ghana Election Results (CSV), 2025 Budget Statement (PDF)  
-**LLM Provider:** OpenAI GPT-4o-mini
+**Project Name:** AcityPal AI Chatbot
+**Stack:** Full-stack Python (Streamlit + Custom RAG Pipeline)
+**Data Sources:** Ghana Election Results (CSV), 2025 Budget Statement (PDF)
+**LLM Provider:** OpenAI GPT-4o-mini (optional - works offline)
 
 ## 🚀 Core Capabilities
 
@@ -44,12 +46,38 @@ The platform features a modern Ghana-themed Streamlit interface with real-time q
 - **Stage-by-Stage Logging:** Complete pipeline transparency
 - **Interactive Visualizations:** Vote bar charts and structured response cards
 
-### 💡 Planned Enhancements
-- Multi-turn conversation memory with context preservation
-- Real-time data streaming for live election updates
-- Voice query input and text-to-speech responses
-- Advanced analytics dashboard for query patterns
-- Export functionality for reports and insights
+### 💡 Offline Mode
+- **No API Required:** Built-in rule-based response generator works completely offline
+- **Pattern Matching:** Handles election results, budget queries using regex and extraction
+- **Zero External Dependencies:** Ideal for restricted networks or environments without API access
+
+## 🧰 Technology Stack
+
+### Backend
+- **Framework:** Streamlit (Python)
+- **LLM Provider:** OpenAI GPT-4o-mini (optional - works offline)
+- **Data Processing:** Pandas, NumPy
+- **Machine Learning:** scikit-learn
+- **PDF Processing:** PyPDF
+- **Environment Management:** python-dotenv
+
+### RAG Pipeline
+- **Embedding Strategy:** Custom hashing-based text embeddings
+- **Vector Store:** Custom implementation with similarity search
+- **Retrieval Method:** Hybrid (vector + keyword-based)
+- **Prompt Engineering:** Custom templates with context window management
+- **Evaluation:** Adversarial testing + failure case analysis
+
+### Frontend
+- **UI Framework:** Streamlit
+- **Styling:** Custom CSS with Ghana flag color scheme
+- **Interactive Components:** Charts, expanders, chat interface
+- **State Management:** Streamlit session state
+- **Dark Mode:** Toggle support
+
+### Data Sources
+- **Election Data:** CSV format with presidential results by constituency
+- **Budget Document:** PDF format with 2025 Budget Statement & Economic Policy
 
 ## 🏗️ Application Structure
 ```
@@ -61,7 +89,7 @@ AI-Exam-B/
 │   ├── prompting.py           # Prompt templates + context management
 │   ├── pipeline.py            # RAG orchestration + logging
 │   ├── evaluation.py          # Benchmark + adversarial tests
-│   ├── llm.py                 # LLM integration (OpenAI)
+│   ├── llm.py                 # LLM integration (OpenAI + offline mode)
 │   ├── memory.py              # Conversation memory management
 │   ├── config.py              # Configuration management
 │   ├── architecture.py        # System architecture definitions
@@ -93,41 +121,13 @@ AI-Exam-B/
 └── 2025-Budget-Statement-and-Economic-Policy_v4.pdf  # Budget document
 ```
 
-## 🧰 Technology Stack
-
-### Backend
-- **Framework:** Streamlit (Python)
-- **LLM Provider:** OpenAI GPT-4o-mini
-- **Data Processing:** Pandas, NumPy
-- **Machine Learning:** scikit-learn
-- **PDF Processing:** PyPDF
-- **Environment Management:** python-dotenv
-
-### RAG Pipeline
-- **Embedding Strategy:** Custom hashing-based text embeddings
-- **Vector Store:** Custom implementation with similarity search
-- **Retrieval Method:** Hybrid (vector + keyword-based)
-- **Prompt Engineering:** Custom templates with context window management
-- **Evaluation:** Adversarial testing + failure case analysis
-
-### Frontend
-- **UI Framework:** Streamlit
-- **Styling:** Custom CSS with Ghana flag color scheme
-- **Interactive Components:** Charts, expanders, chat interface
-- **State Management:** Streamlit session state
-- **Dark Mode:** Toggle support
-
-### Data Sources
-- **Election Data:** CSV format with presidential results by constituency
-- **Budget Document:** PDF format with 2025 Budget Statement & Economic Policy
-
 ## ⚙️ Installation & Setup
 
 ### Requirements
 - Python 3.8+
 - pip
-- OpenAI API Key
 - Git
+- OpenAI API Key (optional - only for online mode)
 
 ### Clone the Repository
 ```bash
@@ -135,9 +135,7 @@ git clone https://github.com/Uche-UkahChimzyterem/ai_10012200064.git
 cd AI-Exam-B
 ```
 
-### Configure the Project
-
-**Install dependencies:**
+### Install Dependencies
 ```bash
 python -m venv .venv
 .venv\Scripts\activate  # On Windows
@@ -146,11 +144,19 @@ source .venv/bin/activate  # On Linux/Mac
 pip install -r requirements.txt
 ```
 
-**Environment Variables**
+### Environment Variables
 Create a `.env` file:
+
+**For Online Mode (with OpenAI API):**
 ```bash
 OPENAI_API_KEY=your-openai-api-key
 OPENAI_MODEL=gpt-4o-mini
+LOCAL_MODE=false
+```
+
+**For Offline/Local Mode (No API required):**
+```bash
+LOCAL_MODE=true
 ```
 
 ⚠️ **Do not commit `.env` files. Use `.env.example` as template.**
@@ -179,6 +185,36 @@ streamlit run app.py
 ```
 
 Access the application at `http://localhost:8501`
+
+## 🚀 Deployment
+
+### Local Deployment
+- Ensure Python 3.8+ is installed
+- Set up virtual environment
+- For online mode: Configure OpenAI API key in `.env`
+- For offline mode: Set `LOCAL_MODE=true` in `.env`
+- Run with Streamlit
+
+### Cloud Deployment (Streamlit Cloud)
+
+**Steps:**
+1. Push your code to GitHub
+2. Go to https://share.streamlit.io
+3. Click "New app"
+4. Select your repository and branch
+5. Set main file path to `app.py`
+6. In "Secrets", add: `LOCAL_MODE = "true"`
+7. Click "Deploy"
+
+**Online Mode (Optional):**
+- Set `OPENAI_API_KEY` in Secrets section
+- Ensure all dependencies are in `requirements.txt`
+
+**Offline Mode (Recommended):**
+- Set `LOCAL_MODE=true` in Secrets section
+- No API keys needed
+- System uses built-in rule-based response generator
+- Works completely offline with no external dependencies
 
 ## 🔌 System Features
 
@@ -222,63 +258,20 @@ This generates:
 - Failure case analysis
 - Adversarial query results
 
-## 🚀 Deployment Notes
-
-**For Local Deployment:**
-- Ensure Python 3.8+ is installed
-- Set up virtual environment
-- Configure OpenAI API key
-- Run with Streamlit
-
-**For Cloud Deployment (Streamlit Cloud, Heroku, etc.):**
-- Set `OPENAI_API_KEY` in environment variables
-- Ensure all dependencies are in `requirements.txt`
-- Configure Streamlit settings in `.streamlit/config.toml`
-- Enable HTTPS for production
-- Set appropriate resource limits
-
-**Performance Optimization:**
-- Use cached vector index for faster startup
-- Adjust `top_k` parameter based on query complexity
-- Enable hybrid search for better accuracy
-- Monitor token usage for cost management
-
-## 📊 Data Models
-
-### Core Entities
-- **Document:** Processed text chunks from PDF and CSV sources
-- **Chunk:** Text segments with metadata (source, region, page, etc.)
-- **Embedding:** Vector representations of text chunks
-- **Query:** User input with intent classification
-- **Retrieval Result:** Ranked list of relevant chunks with similarity scores
-- **Conversation:** Chat session with message history
-- **Evaluation Metric:** Performance metrics for system assessment
-
-### Data Sources
-- **Election Data:** Presidential results by constituency and region
-- **Budget Document:** 2025 Budget Statement & Economic Policy sections
-
-## 🤝 Contributions
-
-This is an academic project for examination purposes. For suggestions or improvements:
-1. Fork the repository
-2. Create a new feature branch
-3. Commit your changes
-4. Add tests where applicable
-5. Open a pull request
-
-## 📚 Documentation
-
-- **Architecture Overview:** See `docs/architecture.md`
-- **Experiment Logs:** See `docs/manual_experiment_logs.md`
-- **Rubric Report:** See `docs/rubric_report.md`
-- **Video Walkthrough:** See `docs/video_walkthrough_script.md`
-
-## 🔐 Configuration
+## � Configuration
 
 ### Streamlit Configuration (`.streamlit/config.toml`)
 ```toml
+[browser]
+gatherUsageStats = false
+serverAddress = "0.0.0.0"
+serverPort = 8501
+
+[client]
+showErrorDetails = false
+
 [theme]
+base = "light"
 primaryColor = "#CE1126"
 backgroundColor = "#f0f4f8"
 secondaryBackgroundColor = "#ffffff"
@@ -296,6 +289,21 @@ font = "sans serif"
 - **strict:** Conservative prompts with strong hallucination control
 - **creative:** More flexible prompts for exploratory queries
 
+## 📊 Data Models
+
+### Core Entities
+- **Document:** Processed text chunks from PDF and CSV sources
+- **Chunk:** Text segments with metadata (source, region, page, etc.)
+- **Embedding:** Vector representations of text chunks
+- **Query:** User input with intent classification
+- **Retrieval Result:** Ranked list of relevant chunks with similarity scores
+- **Conversation:** Chat session with message history
+- **Evaluation Metric:** Performance metrics for system assessment
+
+### Data Sources
+- **Election Data:** Presidential results by constituency and region
+- **Budget Document:** 2025 Budget Statement & Economic Policy sections
+
 ## 📈 Performance Metrics
 
 The system includes comprehensive evaluation:
@@ -304,39 +312,16 @@ The system includes comprehensive evaluation:
 - **Latency:** Query processing time
 - **Token Efficiency:** Average tokens per query
 
-## 🎯 Use Cases
+## 🤝 Contributions
 
-### Election Queries
-- "Who won the presidential election in Greater Accra?"
-- "What were the vote counts for NPP in Ashanti Region?"
-- "Compare election results between Northern and Upper East regions"
-
-### Budget Queries
-- "What is the allocation for infrastructure in the 2025 budget?"
-- "How much revenue is projected from taxation?"
-- "What are the key priorities in the fiscal policy?"
-
-### Comparative Queries
-- "Compare the vote shares of NDC and NPP nationwide"
-- "How does the 2025 budget compare to previous years on education spending?"
-
-## 🏆 Exam Compliance
-
-This project aligns with academic examination requirements:
-- ✅ Data cleaning and preprocessing
-- ✅ Chunking strategy comparison
-- ✅ Custom embedding pipeline
-- ✅ Custom vector store implementation
-- ✅ Hybrid retrieval with similarity scoring
-- ✅ Prompt engineering with hallucination control
-- ✅ Full pipeline with logging
-- ✅ Adversarial evaluation
-- ✅ RAG vs no-retrieval comparison
-- ✅ Comprehensive documentation
+This is an academic project for examination purposes. For suggestions or improvements:
+1. Fork the repository
+2. Create a new feature branch
+3. Commit your changes
+4. Add tests where applicable
+5. Open a pull request
 
 ---
 
-**AcityPal – Empowering Ghana's Democratic & Economic Discourse with AI** 🇬🇭
-
 **Developed by:** Uche-Ukah Chimzyterem (Roll Number: 10012200064)  
-**Institution:** Academic City University College
+

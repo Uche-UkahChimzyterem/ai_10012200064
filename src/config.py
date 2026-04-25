@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,3 +14,6 @@ CHUNK_COMPARE = OUTPUT_DIR / "chunking_comparison.json"
 VECTOR_INDEX_PATH = OUTPUT_DIR / "vector_index.pkl"
 EVAL_RESULTS_PATH = OUTPUT_DIR / "evaluation_results.json"
 PIPELINE_LOG_PATH = LOG_DIR / "pipeline_logs.jsonl"
+
+# Local/offline mode configuration
+LOCAL_MODE = os.getenv("LOCAL_MODE", "false").lower() in ("true", "1", "yes")
